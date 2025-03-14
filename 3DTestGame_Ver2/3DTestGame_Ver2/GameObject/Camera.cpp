@@ -6,9 +6,6 @@
 namespace
 {
 	constexpr float kLerpRate = 0.05f;
-
-	constexpr VECTOR kOffset{ 0.0f, 300.0f, 500.0f };
-	constexpr VECTOR kTarget{ 0.0f, 150.0f, 0.0f };
 }
 
 Camera::Camera() :
@@ -53,10 +50,9 @@ void Camera::Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy
 		VGet(m_lookAtPos.x, m_lookAtPos.y, m_lookAtPos.z));
 }
 
-void Camera::SetCamera(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy)
+void Camera::SetCamera(std::shared_ptr<Player> player)
 {
 	Vec3 playerPos = player->GetPos();
-	Vec3 enemyPos = enemy->GetPos();
 
 	Vec3 offset = { 0.0f, 300.0f, 500.0f };
 

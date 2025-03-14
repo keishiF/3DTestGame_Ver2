@@ -7,14 +7,22 @@
 class Player
 {
 public:
+	// コンストラクタとデストラクタ
 	Player();
 	virtual ~Player();
 
+	// 更新、描画
 	void Update(Input& input);
 	void Draw();
 
+	// ダメージを受けた時の処理をまとめる関数
 	void OnDamage();
+
+	// 位置の取得
 	Vec3 GetPos() const { return m_pos; }
+	// 回転行列の取得
+	MATRIX GetRotMtc() const { return m_rotMtx; }
+	// ロックオンしているかの取得
 	bool IsLockOn() const { return m_isLockOn; }
 
 private:

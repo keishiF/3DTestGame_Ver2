@@ -11,7 +11,7 @@ public:
 	Camera();
 	~Camera();
 	void Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy);
-	void SetCamera(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy);
+	void SetCamera(std::shared_ptr<Player> player);
 
 private:
 	// ƒJƒƒ‰‚ÌˆÊ’u
