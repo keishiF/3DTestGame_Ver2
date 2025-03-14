@@ -13,6 +13,9 @@ public:
 private:
 	// “ü—Í
 	int m_padInput;
+
+	int m_rsInput;
+
 	// ‘OƒtƒŒ[ƒ€‚Ì“ü—Í
 	int m_lastInput;
 };

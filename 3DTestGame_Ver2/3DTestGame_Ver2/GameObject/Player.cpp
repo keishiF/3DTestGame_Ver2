@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Camera.h"
 #include <cassert>
 
 namespace
@@ -37,7 +38,7 @@ Player::~Player()
 	MV1DeleteModel(m_model);
 }
 
-void Player::Update(Input& input)
+void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 {
 	// アニメーションを進める
 	m_frameCount += 1.0f;
@@ -69,15 +70,16 @@ void Player::Update(Input& input)
 		if (input.IsTrigger(PAD_INPUT_6)) { m_isLockOn = false; }
 	}
 
+	// カメラの回転行列を取得
+	float angle = camera->GetCamRot();
+
 	if (input.IsPress(PAD_INPUT_LEFT))
 	{
 		m_vec.x = kSpeed;
-//		m_angle -= kRotSpeed;
 	}
 	else if (input.IsPress(PAD_INPUT_RIGHT))
 	{
 		m_vec.x = -kSpeed;
-//		m_angle += kRotSpeed;
 	}
 	else
 	{
@@ -97,7 +99,7 @@ void Player::Update(Input& input)
 		m_vec.z = 0.0f;
 	}
 
-	m_rotMtx = MGetRotY(m_angle);
+	m_rotMtx = MGetRotY(angle);
 	VECTOR vec = VTransform(VGet(m_vec.x, m_vec.y, m_vec.z), m_rotMtx);
 	m_pos.x += vec.x;
 	m_pos.y += vec.y;
@@ -109,7 +111,7 @@ void Player::Update(Input& input)
 
 void Player::Draw()
 {
-	DrawFormatString(0, 0, 0xffffff, "PlayerPos：X=%f,Y=%f,Z=%f", m_pos.x, m_pos.y, m_pos.z);
+	printf("PlayerPos：X=%f,Y=%f,Z=%f　\r", m_pos.x, m_pos.y, m_pos.z);
 	MV1DrawModel(m_model);
 	DrawSphere3D(VGet(m_pos.x, m_pos.y, m_pos.z), 20.0f, 16, 0x0000ff, 0x0000ff, true);
 }

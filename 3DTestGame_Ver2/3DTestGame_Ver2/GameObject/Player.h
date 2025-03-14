@@ -3,7 +3,9 @@
 #include "DxLib.h"
 #include "Input.h"
 #include "Vec3.h"
+#include <memory>
 
+class Camera;
 class Player
 {
 public:
@@ -12,7 +14,7 @@ public:
 	virtual ~Player();
 
 	// 更新、描画
-	void Update(Input& input);
+	void Update(Input& input, std::shared_ptr<Camera> camera);
 	void Draw();
 
 	// ダメージを受けた時の処理をまとめる関数
@@ -21,7 +23,7 @@ public:
 	// 位置の取得
 	Vec3 GetPos() const { return m_pos; }
 	// 回転行列の取得
-	MATRIX GetRotMtc() const { return m_rotMtx; }
+	MATRIX GetRotMtx() const { return m_rotMtx; }
 	// ロックオンしているかの取得
 	bool IsLockOn() const { return m_isLockOn; }
 

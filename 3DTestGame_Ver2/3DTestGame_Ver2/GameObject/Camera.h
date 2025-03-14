@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec3.h"
 #include "DxLib.h"
+#include "Input.h"
 #include <memory>
 
 class Player;
@@ -13,6 +14,8 @@ public:
 	void Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy);
 	void SetCamera(std::shared_ptr<Player> player);
 
+	float GetCamRot() const { return m_cameraRotX; }
+
 private:
 	// カメラの位置
 	Vec3 m_pos;
@@ -21,7 +24,8 @@ private:
 	// カメラの視野角
 	float m_fov;
 	// カメラの回転量
-	float m_cameraRot;
+	float m_cameraRotX;
+	float m_cameraRotY;
 	// ロックオンフラグ
 	bool m_isLockOn;
 };

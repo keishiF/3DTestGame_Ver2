@@ -3,6 +3,7 @@
 
 Input::Input() :
 	m_padInput(),
+	m_rsInput(),
 	m_lastInput()
 {
 }

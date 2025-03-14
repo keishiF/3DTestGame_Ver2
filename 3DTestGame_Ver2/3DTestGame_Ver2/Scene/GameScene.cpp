@@ -25,7 +25,7 @@ GameScene::GameScene(SceneController& controller) :
 	m_enemy = std::make_shared<Enemy>();
 
 	m_camera = std::make_shared<Camera>();
-	m_camera->SetCamera(m_player, m_enemy);
+	m_camera->SetCamera(m_player);
 }
 
 GameScene::~GameScene()
@@ -47,8 +47,8 @@ void GameScene::NormalUpdate(Input& input)
 {
 	++m_blinkFrame;
 
-	m_player->Update(input);
 	m_enemy->Update();
+	m_player->Update(input, m_camera);
 	m_camera->Update(m_player, m_enemy);
 
 	if (input.IsPress(GetJoypadInputState(PAD_INPUT_1)))
@@ -85,23 +85,23 @@ void GameScene::NormalDraw()
 
 	Vec3 start;
 	Vec3 end;
-	start = { -300.0f, 0.0f,0.0f };
-	end = { 300.0f, 0.0f,0.0f };
-	for (int z = -300; z <= 300; z += 100)
+	start = { -1000.0f, 0.0f,0.0f };
+	end = { 1000.0f, 0.0f,0.0f };
+	for (int z = -1000; z <= 1000; z += 100)
 	{
 		start.z = z;
 		end.z = z;
 
 		DrawLine3D(VGet(start.x, start.y, start.z), VGet(end.x, end.y, end.z), 0xff0000);
 	}
-	start = { 0.0f, 0.0f, -300.0f };
-	end = { 0.0f, 0.0f, 300.0f };
-	for (int x = -300; x <= 300; x += 100)
+	start = { 0.0f, 0.0f, -1000.0f };
+	end = { 0.0f, 0.0f, 1000.0f };
+	for (int x = -1000; x <= 1000; x += 100)
 	{
 		start.x = x;
 		end.x = x;
 
-		DrawLine3D(VGet(start.x, start.y, start.z), VGet(end.x, end.y, end.z), 0xff0000);
+		DrawLine3D(VGet(start.x, start.y, start.z), VGet(end.x, end.y, end.z), 0x0000ff);
 	}
 
 	m_player->Draw();

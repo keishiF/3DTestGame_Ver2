@@ -6,6 +6,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	Application& app = Application::GetInstance();
 
+#ifdef _DEBUG
+	AllocConsole();                                        // コンソール
+	FILE* out = 0; freopen_s(&out, "CON", "w", stdout); // stdout
+	FILE* in = 0; freopen_s(&in, "CON", "r", stdin);   // stdin
+#endif
+
 	// アプリケーションの初期化
 	if (!app.Init())
 	{
