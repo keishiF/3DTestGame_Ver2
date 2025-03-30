@@ -28,6 +28,11 @@ public:
 	bool IsLockOn() const { return m_isLockOn; }
 
 private:
+	// ジャンプ関連のメソッド
+	void StartJump();
+	void UpdateJump();
+
+private:
 	// プレイヤーのモデル
 	int m_model;
 	// アニメーションハンドル
@@ -44,8 +49,11 @@ private:
 	int m_hp;
 	// ロックオンフラグ
 	bool m_isLockOn;
-	// ジャンプ
+	// ジャンプ状態
 	bool m_isJump;
+	float m_jumpSpeed;
+	float m_jumpHeight;
+	float m_gravity;
 
 	// 経過フレームを測る
 	float m_frameCount;

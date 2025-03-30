@@ -10,6 +10,10 @@ namespace
 	constexpr float kSpeed = 7.5f;
 	// 旋回速度
 	constexpr float kRotSpeed = 0.05f;
+	// ジャンプの初速度
+	constexpr float kJumpSpeed = 15.0f;
+	// 重力
+	constexpr float kGravity = 0.5f;
 }
 
 Player::Player() :
@@ -22,6 +26,9 @@ Player::Player() :
 	m_hp(kHp),
 	m_isLockOn(false),
 	m_isJump(false),
+	m_jumpSpeed(kJumpSpeed),
+	m_jumpHeight(0.0f),
+	m_gravity(kGravity),
 	m_frameCount(0.0f)
 {
 	m_model = MV1LoadModel("Data/Model/Player.mv1");
@@ -99,6 +106,15 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 		m_vec.z = 0.0f;
 	}
 
+	// ジャンプの開始
+	if (input.IsTrigger(PAD_INPUT_1) && !m_isJump)
+	{
+		StartJump();
+	}
+
+	// ジャンプの更新
+	UpdateJump();
+
 	m_rotMtx = MGetRotY(angle);
 	VECTOR vec = VTransform(VGet(m_vec.x, m_vec.y, m_vec.z), m_rotMtx);
 	m_pos.x += vec.x;
@@ -119,4 +135,26 @@ void Player::Draw()
 void Player::OnDamage()
 {
 	m_hp--;
+}
+
+void Player::StartJump()
+{
+	m_isJump = true;
+	m_vec.y = m_jumpSpeed;
+}
+
+void Player::UpdateJump()
+{
+	if (m_isJump)
+	{
+		m_vec.y -= m_gravity;
+		m_pos.y += m_vec.y;
+
+		// 地面に到達した場合の処理
+		if (m_pos.y <= 0.0f)
+		{
+			m_pos.y = 0.0f;
+			m_isJump = false;
+		}
+	}
 }
