@@ -28,7 +28,7 @@ public:
 	bool IsLockOn() const { return m_isLockOn; }
 
 private:
-	// ジャンプ関連のメソッド
+	// ジャンプ関連の関数
 	void StartJump();
 	void UpdateJump();
 

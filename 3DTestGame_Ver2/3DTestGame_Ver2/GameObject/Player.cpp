@@ -106,13 +106,13 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 		m_vec.z = 0.0f;
 	}
 
-	// ジャンプの開始
-	if (input.IsTrigger(PAD_INPUT_1) && !m_isJump)
+	// ジャンプ開始の入力処理
+	if (input.IsTrigger(PAD_INPUT_1))
 	{
 		StartJump();
 	}
 
-	// ジャンプの更新
+	// ジャンプの更新処理
 	UpdateJump();
 
 	m_rotMtx = MGetRotY(angle);
@@ -127,7 +127,8 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 
 void Player::Draw()
 {
-	printf("PlayerPos：X=%f,Y=%f,Z=%f　\r", m_pos.x, m_pos.y, m_pos.z);
+	printf("\rPlayerPos：X=%f,Y=%f,Z=%f　\n", m_pos.x, m_pos.y, m_pos.z);
+	//printf("\rjumpSpeed = %f \n", m_jumpSpeed);
 	MV1DrawModel(m_model);
 	DrawSphere3D(VGet(m_pos.x, m_pos.y, m_pos.z), 20.0f, 16, 0x0000ff, 0x0000ff, true);
 }
@@ -139,22 +140,18 @@ void Player::OnDamage()
 
 void Player::StartJump()
 {
-	m_isJump = true;
-	m_vec.y = m_jumpSpeed;
+	// ジャンプ中じゃないときにジャンプを開始
+	if (!m_isJump)
+	{
+		m_isJump = true;
+	}
 }
 
 void Player::UpdateJump()
 {
 	if (m_isJump)
 	{
-		m_vec.y -= m_gravity;
-		m_pos.y += m_vec.y;
-
-		// 地面に到達した場合の処理
-		if (m_pos.y <= 0.0f)
-		{
-			m_pos.y = 0.0f;
-			m_isJump = false;
-		}
+		//m_vec.y = m_jumpSpeed;
 	}
 }
+

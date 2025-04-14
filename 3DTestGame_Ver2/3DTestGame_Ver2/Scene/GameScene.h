@@ -6,7 +6,7 @@
 class Player;
 class Enemy;
 class Camera;
-class GameScene :
+class GameScene final:
 	public SceneBase
 {
 public:

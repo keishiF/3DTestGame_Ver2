@@ -83,6 +83,8 @@ void GameScene::NormalDraw()
 {
 	//DrawString(0, 0, "Game Scene", 0xffffff);
 
+	printf("\rframe = %d\n", m_blinkFrame);
+
 	Vec3 start;
 	Vec3 end;
 	start = { -1000.0f, 0.0f,0.0f };

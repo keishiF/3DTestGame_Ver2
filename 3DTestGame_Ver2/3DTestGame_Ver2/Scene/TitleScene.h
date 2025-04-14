@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneBase.h"
-class TitleScene :
+class TitleScene final:
 	public SceneBase
 {
 public:
