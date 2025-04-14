@@ -53,19 +53,6 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 	// 現在再生中のアニメーションの総時間を取得する
 	const float totalTime = MV1GetAttachAnimTotalTime(m_model, m_anim);
 
-	// アニメーションの設定によってループさせるか最後のフレームで止めるかを判定
-	while (m_frameCount > totalTime)
-	{
-		if (!m_isJump)
-		{
-			m_frameCount -= totalTime;
-		}
-		else
-		{
-
-		}
-	}
-
 	MV1SetAttachAnimTime(m_model, m_anim, m_frameCount);
 
 	if (!m_isLockOn)
@@ -140,10 +127,11 @@ void Player::OnDamage()
 
 void Player::StartJump()
 {
-	// ジャンプ中じゃないときにジャンプを開始
+	// ジャンプ中でない場合のみジャンプを開始
 	if (!m_isJump)
 	{
 		m_isJump = true;
+		m_jumpSpeed = kJumpSpeed;
 	}
 }
 
@@ -151,7 +139,17 @@ void Player::UpdateJump()
 {
 	if (m_isJump)
 	{
-		//m_vec.y = m_jumpSpeed;
+		// ジャンプ中の処理
+		m_pos.y += m_jumpSpeed;
+		m_jumpSpeed -= m_gravity;
+
+		// 地面に戻ったらジャンプ終了
+		if (m_pos.y <= 0.0f)
+		{
+			m_pos.y = 0.0f;
+			m_isJump = false;
+			m_jumpSpeed = 0.0f;
+		}
 	}
 }
 
