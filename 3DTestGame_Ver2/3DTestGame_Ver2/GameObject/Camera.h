@@ -14,7 +14,8 @@ public:
 	void Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy);
 	void SetCamera(std::shared_ptr<Player> player);
 
-	float GetCamRot() const { return m_cameraRotX; }
+	float GetCamRotX() const { return m_cameraRotX; }
+	float GetCamRotY() const { return m_cameraRotY; }
 
 private:
 	// ƒJƒƒ‰‚ÌˆÊ’u

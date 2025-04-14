@@ -15,6 +15,7 @@ namespace
 
 GameScene::GameScene(SceneController& controller) :
 	SceneBase(controller),
+	m_frameCount(0),
 	m_fadeFrame(0),
 	m_blinkFrame(0),
 	m_update(&GameScene::FadeInUpdate),
@@ -45,6 +46,7 @@ void GameScene::Draw()
 
 void GameScene::NormalUpdate(Input& input)
 {
+	++m_frameCount;
 	++m_blinkFrame;
 
 	m_enemy->Update();
@@ -83,8 +85,10 @@ void GameScene::NormalDraw()
 {
 	//DrawString(0, 0, "Game Scene", 0xffffff);
 
-	printf("\rframe = %d\n", m_blinkFrame);
-
+	printf("frame %d@PlayerPos X=%f,Y=%f,Z=%f@CameraRot X=%f,Y=%f\r", m_frameCount,
+		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,
+		m_camera->GetCamRotX(), m_camera->GetCamRotY());
+	
 	Vec3 start;
 	Vec3 end;
 	start = { -1000.0f, 0.0f,0.0f };

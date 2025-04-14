@@ -52,7 +52,6 @@ private:
 	// ジャンプ状態
 	bool m_isJump;
 	float m_jumpSpeed;
-	float m_jumpHeight;
 	float m_gravity;
 
 	// 経過フレームを測る

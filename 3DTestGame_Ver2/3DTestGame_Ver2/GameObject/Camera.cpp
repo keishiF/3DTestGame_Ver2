@@ -58,9 +58,6 @@ void Camera::Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy
 		}
 	}
 
-	printf("m_cameraRotY = %fÅ@", m_cameraRotY);
-	printf("a = %f, b = %fÅ@", -DX_PI_F / 2.0f, DX_PI_F / 2.0f);
-
 	if (m_isLockOn)
 	{
 		Vec3 targetPos = (playerPos + enemyPos) * 0.5f;

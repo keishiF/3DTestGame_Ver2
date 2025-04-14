@@ -27,7 +27,6 @@ Player::Player() :
 	m_isLockOn(false),
 	m_isJump(false),
 	m_jumpSpeed(kJumpSpeed),
-	m_jumpHeight(0.0f),
 	m_gravity(kGravity),
 	m_frameCount(0.0f)
 {
@@ -65,7 +64,7 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 	}
 
 	// カメラの回転行列を取得
-	float angle = camera->GetCamRot();
+	float angle = camera->GetCamRotX();
 
 	if (input.IsPress(PAD_INPUT_LEFT))
 	{
@@ -114,8 +113,6 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 
 void Player::Draw()
 {
-	printf("\rPlayerPos：X=%f,Y=%f,Z=%f　\n", m_pos.x, m_pos.y, m_pos.z);
-	//printf("\rjumpSpeed = %f \n", m_jumpSpeed);
 	MV1DrawModel(m_model);
 	DrawSphere3D(VGet(m_pos.x, m_pos.y, m_pos.z), 20.0f, 16, 0x0000ff, 0x0000ff, true);
 }
