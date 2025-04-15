@@ -11,9 +11,12 @@ class Camera
 public:
 	Camera();
 	~Camera();
+	// 更新処理
 	void Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy);
+	// カメラの初期化
 	void SetCamera(std::shared_ptr<Player> player);
 
+	// カメラの回転行列を取得
 	float GetCamRotX() const { return m_cameraRotX; }
 	float GetCamRotY() const { return m_cameraRotY; }
 

@@ -5,7 +5,7 @@
 namespace
 {
 	// HP‚Ì‰Šú’l
-	constexpr int kHp = 5;
+	constexpr int kHp = 100;
 	// ˆÚ“®‘¬“x
 	constexpr float kSpeed = 7.5f;
 	// ù‰ñ‘¬“x

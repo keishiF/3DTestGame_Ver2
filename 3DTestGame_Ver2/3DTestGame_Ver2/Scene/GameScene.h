@@ -23,6 +23,9 @@ private:
 
 	int m_blinkFrame;
 
+	MV1_COLL_RESULT_POLY_DIM m_hitPolyDim;
+	bool m_isHitPoly;
+
 	using UpdateFunc_t = void(GameScene::*)(Input&);
 	using DrawFunc_t = void(GameScene::*)();
 

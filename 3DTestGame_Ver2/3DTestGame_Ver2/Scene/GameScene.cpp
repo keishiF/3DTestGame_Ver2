@@ -18,6 +18,8 @@ GameScene::GameScene(SceneController& controller) :
 	m_frameCount(0),
 	m_fadeFrame(0),
 	m_blinkFrame(0),
+	m_hitPolyDim(),
+	m_isHitPoly(false),
 	m_update(&GameScene::FadeInUpdate),
 	m_draw(&GameScene::FadeDraw)
 {
@@ -49,9 +51,27 @@ void GameScene::NormalUpdate(Input& input)
 	++m_frameCount;
 	++m_blinkFrame;
 
-	m_enemy->Update();
+	m_enemy->Update(m_player);
 	m_player->Update(input, m_camera);
 	m_camera->Update(m_player, m_enemy);
+
+	m_hitPolyDim = MV1CollCheck_Sphere(m_player->GetModel(), -1,
+		VGet(m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z),
+		m_enemy->GetRadius());
+
+	if (m_hitPolyDim.HitNum >= 1)
+	{
+		m_isHitPoly = true;
+	}
+	else
+	{
+		m_isHitPoly = false;
+	}
+
+	if (m_isHitPoly)
+	{
+		m_player->OnDamage();
+	}
 
 	if (input.IsPress(GetJoypadInputState(PAD_INPUT_1)))
 	{
@@ -85,9 +105,10 @@ void GameScene::NormalDraw()
 {
 	//DrawString(0, 0, "Game Scene", 0xffffff);
 
-	printf("frame %d　PlayerPos X=%f,Y=%f,Z=%f　CameraRot X=%f,Y=%f\r", m_frameCount,
+	printf("frame %d　PlayerHP=%d　PlayerPos X=%f,Y=%f,Z=%f　EnemyPos X=%f,Y=%f,Z=%f\r", m_frameCount,
+		m_player->GetHp(),
 		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,
-		m_camera->GetCamRotX(), m_camera->GetCamRotY());
+		m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z);
 	
 	Vec3 start;
 	Vec3 end;

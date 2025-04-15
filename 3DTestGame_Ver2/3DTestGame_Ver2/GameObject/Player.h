@@ -20,6 +20,10 @@ public:
 	// ダメージを受けた時の処理をまとめる関数
 	void OnDamage();
 
+	// HPを取得
+	int GetHp() const { return m_hp; }
+	// プレイヤーのモデルを取得
+	int GetModel()const { return m_model; }
 	// 位置の取得
 	Vec3 GetPos() const { return m_pos; }
 	// 回転行列の取得
