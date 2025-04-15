@@ -59,20 +59,6 @@ void GameScene::NormalUpdate(Input& input)
 		VGet(m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z),
 		m_enemy->GetRadius());
 
-	if (m_hitPolyDim.HitNum >= 1)
-	{
-		m_isHitPoly = true;
-	}
-	else
-	{
-		m_isHitPoly = false;
-	}
-
-	if (m_isHitPoly)
-	{
-		m_player->OnDamage();
-	}
-
 	if (input.IsPress(GetJoypadInputState(PAD_INPUT_1)))
 	{
 		m_update = &GameScene::FadeOutUpdate;
@@ -105,7 +91,9 @@ void GameScene::NormalDraw()
 {
 	//DrawString(0, 0, "Game Scene", 0xffffff);
 
-	printf("frame %d　PlayerHP=%d　PlayerPos X=%f,Y=%f,Z=%f　EnemyPos X=%f,Y=%f,Z=%f\r", m_frameCount,
+	printf("HitPolyNum=%d　frame %d　PlayerHP=%d　PlayerPos X=%f,Y=%f,Z=%f　EnemyPos X=%f,Y=%f,Z=%f\r", 
+		m_hitPolyDim.HitNum, 
+		m_frameCount,
 		m_player->GetHp(),
 		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,
 		m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z);
