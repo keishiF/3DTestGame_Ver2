@@ -1,23 +1,29 @@
 #include "Enemy.h"
 #include "DxLib.h"
 #include "Player.h"
+#include <cassert>
 
 namespace
 {
-    // エネミーの移動速度
+    // 敵の移動速度
     constexpr float kSpeed = 5.0f;
-    // エネミーの半径
-    constexpr float kRadius = 100.0f;
+    // 敵の半径
+    constexpr float kColRadius = 80.0f;
 }
 
 Enemy::Enemy() :
-	m_pos(0.0f, 150.0f, 0.0f),
-	m_radius(kRadius)
+    m_model(-1),
+	m_pos(0.0f, 150.0f, 0.0f)
 {
+    m_model = MV1LoadModel("Data/Model/Enemy.mv1");
+    assert(m_model != -1);
+
+    MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
 }
 
 Enemy::~Enemy()
 {
+    MV1DeleteModel(m_model);
 }
 
 void Enemy::Update(std::shared_ptr<Player> player)
@@ -43,13 +49,31 @@ void Enemy::Update(std::shared_ptr<Player> player)
         direction.z /= distance;
     }
 
-    // エネミーを移動
+    // 敵を移動
     m_pos.x += direction.x * kSpeed;
     m_pos.y += direction.y * kSpeed;
     m_pos.z += direction.z * kSpeed;
+
+    MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
 }
 
 void Enemy::Draw()
 {
-	DrawSphere3D(VGet(m_pos.x, m_pos.y, m_pos.z), m_radius, 16, 0x00ff00, 0x00ff00, true);
+    MV1DrawModel(m_model);
+
+#ifdef _DEBUG
+    DrawSphere3D(VGet(GetColPos().x, GetColPos().y, GetColPos().z), kColRadius, 16, 0xff00ff, 0xff00ff, false);
+#endif
+}
+
+Vec3 Enemy::GetColPos() const
+{
+    Vec3 result = m_pos;
+    result.y += 64.0f;
+    return result;
+}
+
+float Enemy::GetRadius() const
+{
+    return kColRadius;
 }

@@ -20,12 +20,14 @@ public:
 	// ダメージを受けた時の処理をまとめる関数
 	void OnDamage();
 
+	// 当たり判定用の球の半径を取得
+	float GetRadius() const;
 	// HPを取得
 	int GetHp() const { return m_hp; }
-	// プレイヤーのモデルを取得
-	int GetModel()const { return m_model; }
 	// 位置の取得
 	Vec3 GetPos() const { return m_pos; }
+	// プレイヤーの当たり判定の位置を取得
+	Vec3 GetColPos() const;
 	// 回転行列の取得
 	MATRIX GetRotMtx() const { return m_rotMtx; }
 	// ロックオンしているかの取得

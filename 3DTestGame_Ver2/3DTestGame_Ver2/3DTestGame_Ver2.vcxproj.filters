@@ -31,6 +31,12 @@
     <Filter Include="ヘッダー ファイル\General">
       <UniqueIdentifier>{0267dabf-cdb9-4f6a-a2aa-d8955cac2454}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Collider">
+      <UniqueIdentifier>{b0ba597f-e188-41d7-8fe5-4cb6ea9a8589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Collider">
+      <UniqueIdentifier>{0d73fdb3-5103-4f53-8a72-3d1a94045b8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -62,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Camera.cpp">
       <Filter>ソース ファイル\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider\ColliderManager.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Camera.h">
       <Filter>ヘッダー ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider\ColliderManager.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

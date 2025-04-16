@@ -14,6 +14,9 @@ namespace
 	constexpr float kJumpSpeed = 15.0f;
 	// 重力
 	constexpr float kGravity = 0.5f;
+
+	// プレイヤーの当たり判定用の球の半径
+	constexpr float kColRadius = 110.0f;
 }
 
 Player::Player() :
@@ -114,12 +117,28 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 void Player::Draw()
 {
 	MV1DrawModel(m_model);
+
+#ifdef _DEBUG
 	DrawSphere3D(VGet(m_pos.x, m_pos.y, m_pos.z), 20.0f, 16, 0x0000ff, 0x0000ff, true);
+	DrawSphere3D(VGet(GetColPos().x, GetColPos().y, GetColPos().z), kColRadius, 16, 0xff00ff, 0xff00ff, false);
+#endif
 }
 
 void Player::OnDamage()
 {
 	m_hp--;
+}
+
+float Player::GetRadius() const
+{
+	return kColRadius;
+}
+
+Vec3 Player::GetColPos() const
+{
+	Vec3 result = m_pos;
+	result.y += 80.0f;
+	return result;
 }
 
 void Player::StartJump()

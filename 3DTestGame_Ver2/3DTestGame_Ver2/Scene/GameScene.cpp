@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Camera.h"
+#include "ColliderManager.h"
 #include <cassert>
 
 namespace
@@ -55,9 +56,15 @@ void GameScene::NormalUpdate(Input& input)
 	m_player->Update(input, m_camera);
 	m_camera->Update(m_player, m_enemy);
 
-	m_hitPolyDim = MV1CollCheck_Sphere(m_player->GetModel(), -1,
-		VGet(m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z),
-		m_enemy->GetRadius());
+	// プレイヤーと敵の当たり判定
+	if (m_colliderManager->SphereToSphere(m_player->GetColPos(), m_player->GetRadius(), m_enemy->GetColPos(), m_enemy->GetRadius()))
+	{
+		printfDx("Hit\n");
+	}
+	else
+	{
+		printfDx("--\n");
+	}
 
 	if (input.IsPress(GetJoypadInputState(PAD_INPUT_1)))
 	{
@@ -91,8 +98,7 @@ void GameScene::NormalDraw()
 {
 	//DrawString(0, 0, "Game Scene", 0xffffff);
 
-	printf("HitPolyNum=%d　frame %d　PlayerHP=%d　PlayerPos X=%f,Y=%f,Z=%f　EnemyPos X=%f,Y=%f,Z=%f\r", 
-		m_hitPolyDim.HitNum, 
+	printf("frame %d　PlayerHP=%d　PlayerPos X=%f,Y=%f,Z=%f　EnemyPos X=%f,Y=%f,Z=%f\r", 
 		m_frameCount,
 		m_player->GetHp(),
 		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,

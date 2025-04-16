@@ -6,6 +6,7 @@
 class Player;
 class Enemy;
 class Camera;
+class ColliderManager;
 class GameScene final:
 	public SceneBase
 {
@@ -35,6 +36,7 @@ private:
 	std::shared_ptr<Player> m_player;
 	std::shared_ptr<Camera> m_camera;
 	std::shared_ptr<Enemy> m_enemy;
+	std::shared_ptr<ColliderManager> m_colliderManager;
 
 	// ’ÊíXVˆ—
 	void NormalUpdate(Input& input);

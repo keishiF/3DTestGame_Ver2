@@ -14,15 +14,17 @@ public:
 	void Update(std::shared_ptr<Player> player);
 	void Draw();
 
-	// エネミーの位置を取得
+	// 敵の位置を取得
 	Vec3 GetPos() const { return m_pos; }
-	// エネミーの半径を取得
-	float GetRadius() const { return m_radius; }
+	// 敵の当たり判定の位置を取得
+	Vec3 GetColPos() const;
+	// 敵の半径を取得
+	float GetRadius() const;
 
 private:
-	// エネミーの位置
+	// 敵のモデル
+	int m_model;
+	// 敵の位置
 	Vec3 m_pos;
-	// 球の半径
-	float m_radius;
 };
 
