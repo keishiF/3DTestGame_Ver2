@@ -26,7 +26,7 @@ GameScene::GameScene(SceneController& controller) :
 	m_update(&GameScene::FadeInUpdate),
 	m_draw(&GameScene::FadeDraw)
 {
-	m_skyModel = MV1LoadModel("Data/Sky/Sky.pmx");
+	m_skyModel = MV1LoadModel("Data/Sky/Sky_Daylight01.pmx");
 	assert(m_skyModel != -1);
 
 	m_player = std::make_shared<Player>();
