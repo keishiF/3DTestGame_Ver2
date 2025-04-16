@@ -15,7 +15,7 @@ Enemy::Enemy() :
     m_model(-1),
 	m_pos(0.0f, 150.0f, 0.0f)
 {
-    m_model = MV1LoadModel("Data/Model/Enemy.mv1");
+    m_model = MV1LoadModel("Data/Enemy/Enemy.mv1");
     assert(m_model != -1);
 
     MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));

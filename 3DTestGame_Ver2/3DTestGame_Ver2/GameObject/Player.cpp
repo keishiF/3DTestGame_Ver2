@@ -33,7 +33,7 @@ Player::Player() :
 	m_gravity(kGravity),
 	m_frameCount(0.0f)
 {
-	m_model = MV1LoadModel("Data/Model/Player.mv1");
+	m_model = MV1LoadModel("Data/Player/Player.mv1");
 	assert(m_model != -1);
 	m_anim = MV1AttachAnim(m_model, 3, -1, false);
 	assert(m_anim != -1);

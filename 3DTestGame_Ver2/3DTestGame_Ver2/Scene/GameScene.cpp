@@ -19,17 +19,24 @@ GameScene::GameScene(SceneController& controller) :
 	m_frameCount(0),
 	m_fadeFrame(0),
 	m_blinkFrame(0),
+	m_skyModel(-1),
+	m_skyPos(0.0f, 0.0f, 0.0f),
 	m_hitPolyDim(),
 	m_isHitPoly(false),
 	m_update(&GameScene::FadeInUpdate),
 	m_draw(&GameScene::FadeDraw)
 {
+	m_skyModel = MV1LoadModel("Data/Sky/Sky.pmx");
+	assert(m_skyModel != -1);
+
 	m_player = std::make_shared<Player>();
 
 	m_enemy = std::make_shared<Enemy>();
 
 	m_camera = std::make_shared<Camera>();
 	m_camera->SetCamera(m_player);
+
+	MV1SetPosition(m_skyModel, VGet(m_skyPos.x, m_skyPos.y, m_skyPos.z));
 }
 
 GameScene::~GameScene()
@@ -104,6 +111,8 @@ void GameScene::NormalDraw()
 		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,
 		m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z);
 	
+	MV1DrawModel(m_skyModel);
+
 	Vector3 start;
 	Vector3 end;
 	start = { -1000.0f, 0.0f,0.0f };
