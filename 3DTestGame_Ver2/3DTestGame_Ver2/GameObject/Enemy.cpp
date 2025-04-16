@@ -29,10 +29,10 @@ Enemy::~Enemy()
 void Enemy::Update(std::shared_ptr<Player> player)
 {
     // プレイヤーの位置を取得
-    Vec3 playerPos = player->GetPos();
+    Vector3 playerPos = player->GetPos();
 
     // プレイヤーの位置に向かう方向を計算
-    Vec3 direction = {
+    Vector3 direction = {
         playerPos.x - m_pos.x,
         playerPos.y - m_pos.y,
         playerPos.z - m_pos.z
@@ -66,9 +66,9 @@ void Enemy::Draw()
 #endif
 }
 
-Vec3 Enemy::GetColPos() const
+Vector3 Enemy::GetColPos() const
 {
-    Vec3 result = m_pos;
+    Vector3 result = m_pos;
     result.y += 64.0f;
     return result;
 }

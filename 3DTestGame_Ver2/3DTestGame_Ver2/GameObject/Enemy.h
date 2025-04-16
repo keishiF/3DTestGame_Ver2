@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec3.h"
+#include "Vector3.h"
 #include "DxLib.h"
 #include <memory>
 
@@ -15,9 +15,9 @@ public:
 	void Draw();
 
 	// “G‚ÌˆÊ’u‚ðŽæ“¾
-	Vec3 GetPos() const { return m_pos; }
+	Vector3 GetPos() const { return m_pos; }
 	// “G‚Ì“–‚½‚è”»’è‚ÌˆÊ’u‚ðŽæ“¾
-	Vec3 GetColPos() const;
+	Vector3 GetColPos() const;
 	// “G‚Ì”¼Œa‚ðŽæ“¾
 	float GetRadius() const;
 
@@ -25,6 +25,6 @@ private:
 	// “G‚Ìƒ‚ƒfƒ‹
 	int m_model;
 	// “G‚ÌˆÊ’u
-	Vec3 m_pos;
+	Vector3 m_pos;
 };
 

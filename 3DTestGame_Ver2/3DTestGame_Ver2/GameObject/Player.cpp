@@ -134,9 +134,9 @@ float Player::GetRadius() const
 	return kColRadius;
 }
 
-Vec3 Player::GetColPos() const
+Vector3 Player::GetColPos() const
 {
-	Vec3 result = m_pos;
+	Vector3 result = m_pos;
 	result.y += 80.0f;
 	return result;
 }

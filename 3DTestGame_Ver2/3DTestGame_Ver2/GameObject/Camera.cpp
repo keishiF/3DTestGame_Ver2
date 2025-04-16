@@ -31,11 +31,11 @@ Camera::~Camera()
 void Camera::Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy)
 {
 	// プレイヤーとエネミーの位置を取得
-	Vec3 playerPos = player->GetPos();
-	Vec3 enemyPos = enemy->GetPos();
+	Vector3 playerPos = player->GetPos();
+	Vector3 enemyPos = enemy->GetPos();
 
 	// カメラの位置を補正する値の設定
-	Vec3 offset = { kCameraOffsetX, kCameraOffsetY, kCameraOffsetZ };
+	Vector3 offset = { kCameraOffsetX, kCameraOffsetY, kCameraOffsetZ };
 
 	// カメラの位置をプレイヤーの位置に基づいて更新
 	m_pos = playerPos;
@@ -71,20 +71,20 @@ void Camera::Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy
 	// プレイヤーとエネミーの中間地点を注視点にする
 	if (m_isLockOn)
 	{
-		Vec3 targetPos = (playerPos + enemyPos) * 0.5f;
+		Vector3 targetPos = (playerPos + enemyPos) * 0.5f;
 		targetPos.y += 150.0f;
-		m_lookAtPos = Vec3::Lerp(m_lookAtPos, targetPos, kLerpRate);
+		m_lookAtPos = Vector3::Lerp(m_lookAtPos, targetPos, kLerpRate);
 	}
 	// ロックオンしていない時は
 	// プレイヤーの位置を注視点にする
 	else if (!m_isLockOn)
 	{
-		Vec3 targetPos = { playerPos.x, playerPos.y + 175.0f, playerPos.z - 150.0f };
-		m_lookAtPos = Vec3::Lerp(m_lookAtPos, targetPos, kLerpRate);
+		Vector3 targetPos = { playerPos.x, playerPos.y + 175.0f, playerPos.z - 150.0f };
+		m_lookAtPos = Vector3::Lerp(m_lookAtPos, targetPos, kLerpRate);
 	}
 
 	// カメラの位置を回転に基づいて更新
-	Vec3 rotatedOffset = {
+	Vector3 rotatedOffset = {
 		offset.x * cos(m_cameraRotX) - offset.z * sin(m_cameraRotX),
 		offset.y * cos(m_cameraRotY) - offset.z * sin(m_cameraRotY),
 		offset.x * sin(m_cameraRotX) + offset.z * cos(m_cameraRotX)
@@ -103,10 +103,10 @@ void Camera::Update(std::shared_ptr<Player> player, std::shared_ptr<Enemy> enemy
 void Camera::SetCamera(std::shared_ptr<Player> player)
 {
 	// プレイヤーの位置を取得
-	Vec3 playerPos = player->GetPos();
+	Vector3 playerPos = player->GetPos();
 
 	// カメラの位置を補正する値の設定
-	Vec3 offset = { kCameraOffsetX, kCameraOffsetY, kCameraOffsetZ };
+	Vector3 offset = { kCameraOffsetX, kCameraOffsetY, kCameraOffsetZ };
 
 	// カメラの位置をプレイヤーの位置に合わせる
 	m_pos = { 0.0f, 0.0f, 0.0f };

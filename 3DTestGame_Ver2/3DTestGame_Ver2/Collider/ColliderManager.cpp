@@ -8,7 +8,7 @@ ColliderManager::~ColliderManager()
 {
 }
 
-bool ColliderManager::SphereToSphere(const Vec3& pos1, float radius1, const Vec3& pos2, float radius2)
+bool ColliderManager::SphereToSphere(const Vector3& pos1, float radius1, const Vector3& pos2, float radius2)
 {
 	float distX = pos1.x - pos2.x;
 	float distY = pos1.y - pos2.y;

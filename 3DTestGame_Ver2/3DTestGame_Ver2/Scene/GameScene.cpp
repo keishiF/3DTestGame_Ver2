@@ -104,8 +104,8 @@ void GameScene::NormalDraw()
 		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,
 		m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z);
 	
-	Vec3 start;
-	Vec3 end;
+	Vector3 start;
+	Vector3 end;
 	start = { -1000.0f, 0.0f,0.0f };
 	end = { 1000.0f, 0.0f,0.0f };
 	for (int z = -1000; z <= 1000; z += 100)
