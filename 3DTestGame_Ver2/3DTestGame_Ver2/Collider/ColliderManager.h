@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "Vec3.h"
 
 class ColliderManager
 {
@@ -8,6 +8,6 @@ public:
 	~ColliderManager();
 
 	// ‹…‚Æ‹…‚Ì“–‚½‚è”»’è
-	bool SphereToSphere(const Vector3& pos1, float radius1, const Vector3& pos2, float radius2);
+	bool SphereToSphere(const Vec3& pos1, float radius1, const Vec3& pos2, float radius2);
 };
 

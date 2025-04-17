@@ -111,22 +111,22 @@ void GameScene::NormalDraw()
 		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,
 		m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z);
 	
-	MV1DrawModel(m_skyModel);
+	//MV1DrawModel(m_skyModel);
 
-	Vector3 start;
-	Vector3 end;
-	start = { -1000.0f, 0.0f,0.0f };
-	end = { 1000.0f, 0.0f,0.0f };
-	for (int z = -1000; z <= 1000; z += 100)
+	Vec3 start;
+	Vec3 end;
+	start = { -500.0f, 0.0f,0.0f };
+	end = { 500.0f, 0.0f,0.0f };
+	for (int z = -500; z <= 500; z += 100)
 	{
 		start.z = z;
 		end.z = z;
 
 		DrawLine3D(VGet(start.x, start.y, start.z), VGet(end.x, end.y, end.z), 0xff0000);
 	}
-	start = { 0.0f, 0.0f, -1000.0f };
-	end = { 0.0f, 0.0f, 1000.0f };
-	for (int x = -1000; x <= 1000; x += 100)
+	start = { 0.0f, 0.0f, -500.0f };
+	end = { 0.0f, 0.0f, 500.0f };
+	for (int x = -500; x <= 500; x += 100)
 	{
 		start.x = x;
 		end.x = x;

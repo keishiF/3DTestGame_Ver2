@@ -2,6 +2,8 @@
 #include "DxLib.h"
 #include "Player.h"
 #include <cassert>
+#include <iostream>
+#include <random>
 
 namespace
 {
@@ -9,11 +11,17 @@ namespace
     constexpr float kSpeed = 5.0f;
     // 敵の半径
     constexpr float kColRadius = 80.0f;
+    // 敵が生成される範囲
+    constexpr float kGenerateRangeMin = -500.0f;
+    constexpr float kGenerateRangeMax =  500.0f;
+    constexpr float kSpawnBuffer      =  50.0f;
 }
 
 Enemy::Enemy() :
     m_model(-1),
-	m_pos(0.0f, 150.0f, 0.0f)
+	m_pos(),
+	m_moveVec(0.0f, 0.0f, 0.0f),
+	m_update(&Enemy::IdleUpdate)
 {
     m_model = MV1LoadModel("Data/Enemy/Enemy.mv1");
     assert(m_model != -1);
@@ -26,35 +34,51 @@ Enemy::~Enemy()
     MV1DeleteModel(m_model);
 }
 
-void Enemy::Update(std::shared_ptr<Player> player)
+void Enemy::IdleUpdate(std::shared_ptr<Player> player)
 {
-    // プレイヤーの位置を取得
-    Vector3 playerPos = player->GetPos();
+    m_pos = GeneratePos(player);
+    MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
+	Vec3 playerPos = player->GetPos();
+    Vec3 enemyToPlayer = playerPos - m_pos;
+	enemyToPlayer.Normalize();
+    m_moveVec = enemyToPlayer * kSpeed;
 
-    // プレイヤーの位置に向かう方向を計算
-    Vector3 direction = {
-        playerPos.x - m_pos.x,
-        playerPos.y - m_pos.y,
-        playerPos.z - m_pos.z
-    };
+    m_update = &Enemy::RunUpdate;
+}
 
-    // 距離を計算
-    float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
-
-    // 正規化して方向ベクトルを単位ベクトルにする
-    if (distance > 0.0f)
-    {
-        direction.x /= distance;
-        direction.y /= distance;
-        direction.z /= distance;
-    }
-
+void Enemy::RunUpdate(std::shared_ptr<Player> player)
+{
     // 敵を移動
-    m_pos.x += direction.x * kSpeed;
-    m_pos.y += direction.y * kSpeed;
-    m_pos.z += direction.z * kSpeed;
+    m_pos.x += m_moveVec.x;
+    m_pos.z += m_moveVec.z;
 
     MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
+
+    if (m_pos.x > 700.0f)
+    {
+        m_update = &Enemy::IdleUpdate;
+    }
+    if (m_pos.x < -700.0f)
+    {
+        m_update = &Enemy::IdleUpdate;
+    }
+    if (m_pos.z > 700.0f)
+    {
+        m_update = &Enemy::IdleUpdate;
+    }
+    if (m_pos.z < -700.0f)
+    {
+        m_update = &Enemy::IdleUpdate;
+    }
+}
+
+void Enemy::DeadUpdate(std::shared_ptr<Player> player)
+{
+}
+
+void Enemy::Update(std::shared_ptr<Player> player)
+{
+    (this->*m_update)(player);
 }
 
 void Enemy::Draw()
@@ -66,9 +90,9 @@ void Enemy::Draw()
 #endif
 }
 
-Vector3 Enemy::GetColPos() const
+Vec3 Enemy::GetColPos() const
 {
-    Vector3 result = m_pos;
+    Vec3 result = m_pos;
     result.y += 64.0f;
     return result;
 }
@@ -76,4 +100,32 @@ Vector3 Enemy::GetColPos() const
 float Enemy::GetRadius() const
 {
     return kColRadius;
+}
+
+Vec3 Enemy::GeneratePos(std::shared_ptr<Player> player)
+{
+    // 一辺の長さ分の乱数を生成
+    // 
+    // xかzのどちらかを固定し、どちらかに生成した乱数を充てる
+    // 
+    // 固定した方をランダムに反転させる/
+
+
+
+    //static std::random_device rd;
+    //static std::mt19937 gen(rd());
+    //static std::uniform_real_distribution<float> dist(-1000.0f, 1000.0f);
+
+    //Vec3 position;
+    //do
+    //{
+    //    position.x = dist(gen);
+    //    position.z = dist(gen);
+    //} while (position.x > kGenerateRangeMin - kSpawnBuffer && 
+    //    position.x < kGenerateRangeMax + kSpawnBuffer &&
+    //    position.z > kGenerateRangeMin - kSpawnBuffer && 
+    //    position.z < kGenerateRangeMax + kSpawnBuffer);
+
+    //position.y = 0.0f; // Y座標は固定
+    //return position;
 }

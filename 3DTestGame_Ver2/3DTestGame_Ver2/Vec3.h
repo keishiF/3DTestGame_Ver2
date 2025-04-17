@@ -2,20 +2,20 @@
 #include <cmath>
 
 // 3次元ベクトルクラス
-class Vector3
+class Vec3
 {
 public:
 	float x;
 	float y;
 	float z;
 
-	Vector3()
+	Vec3()
 	{
 		x = 0.0f;
 		y = 0.0f;
 		z = 0.0f;
 	}
-	Vector3(float _x, float _y, float _z) :
+	Vec3(float _x, float _y, float _z) :
 		x(_x),
 		y(_y),
 		z(_z)
@@ -23,7 +23,7 @@ public:
 
 	}
 
-	Vector3 operator+=(const Vector3& vec)
+	Vec3 operator+=(const Vec3& vec)
 	{
 		x += vec.x;
 		y += vec.y;
@@ -31,32 +31,32 @@ public:
 		return *this;
 	}
 
-	Vector3 operator+(const Vector3& vec) const
+	Vec3 operator+(const Vec3& vec) const
 	{
-		Vector3 temp{ x + vec.x, y + vec.y, z + vec.z };
+		Vec3 temp{ x + vec.x, y + vec.y, z + vec.z };
 		return temp;
 	}
 
-	Vector3 operator-=(const Vector3& vec)
+	Vec3 operator-=(const Vec3& vec)
 	{
 		x -= vec.x;
 		y -= vec.y;
-		z += vec.z;
+		z -= vec.z;
 		return *this;
 	}
 
-	Vector3 operator-(const Vector3& vec) const
+	Vec3 operator-(const Vec3& vec) const
 	{
-		Vector3 temp{ x - vec.x, y - vec.y, z + vec.z };
+		Vec3 temp{ x - vec.x, y - vec.y, z - vec.z };
 		return temp;
 	}
 
-	Vector3 operator-() const
+	Vec3 operator-() const
 	{
-		return Vector3(-x, -y, -z);
+		return Vec3(-x, -y, -z);
 	}
 
-	Vector3 operator*=(float scale)
+	Vec3 operator*=(float scale)
 	{
 		x *= scale;
 		y *= scale;
@@ -64,13 +64,13 @@ public:
 		return *this;
 	}
 
-	Vector3 operator*(float scale) const
+	Vec3 operator*(float scale) const
 	{
-		Vector3 temp{ x * scale, y * scale, z * scale };
+		Vec3 temp{ x * scale, y * scale, z * scale };
 		return temp;
 	}
 
-	Vector3 operator/=(float scale)
+	Vec3 operator/=(float scale)
 	{
 		x /= scale;
 		y /= scale;
@@ -78,9 +78,9 @@ public:
 		return *this;
 	}
 
-	Vector3 operator/(float scale) const
+	Vec3 operator/(float scale) const
 	{
-		Vector3 temp{ x / scale,y / scale, z / scale };
+		Vec3 temp{ x / scale,y / scale, z / scale };
 		return temp;
 	}
 
@@ -105,7 +105,7 @@ public:
 
 	// 自身の長さを1にしたベクトルの取得
 	// (この関数を読んでも自身の長さは変化しない)
-	Vector3 GetNormalize() const
+	Vec3 GetNormalize() const
 	{
 		float len = Length();
 		if (len <= 0.0f)
@@ -115,9 +115,9 @@ public:
 		return (*this) / len;
 	}
 
-	static Vector3 Lerp(Vector3 start, Vector3 end, float t)
+	static Vec3 Lerp(Vec3 start, Vec3 end, float t)
 	{
-		Vector3 temp;
+		Vec3 temp;
 		temp.x = std::lerp(start.x, end.x, t);
 		temp.y = std::lerp(start.y, end.y, t);
 		temp.z = std::lerp(start.z, end.z, t);

@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "Vec3.h"
 #include "DxLib.h"
 #include "Input.h"
 #include <memory>
@@ -22,9 +22,9 @@ public:
 
 private:
 	// カメラの位置
-	Vector3 m_pos;
+	Vec3 m_pos;
 	// カメラの注視点
-	Vector3 m_lookAtPos;
+	Vec3 m_lookAtPos;
 	// カメラの視野角
 	float m_fov;
 	// カメラの回転量

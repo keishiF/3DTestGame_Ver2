@@ -16,7 +16,13 @@ namespace
 	constexpr float kGravity = 0.5f;
 
 	// プレイヤーの当たり判定用の球の半径
-	constexpr float kColRadius = 110.0f;
+	constexpr float kColRadius = 90.0f;
+
+	// プレイヤーの移動範囲の制限
+	constexpr float kMoveMinX = -500.0f;
+	constexpr float kMoveMaxX =  500.0f;
+	constexpr float kMoveMinZ = -500.0f;
+	constexpr float kMoveMaxZ =  500.0f;
 }
 
 Player::Player() :
@@ -110,6 +116,11 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 	m_pos.y += vec.y;
 	m_pos.z += vec.z;
 
+	if (m_pos.x < kMoveMinX) { m_pos.x = kMoveMinX; }
+	if (m_pos.x > kMoveMaxX) { m_pos.x = kMoveMaxX; }
+	if (m_pos.z < kMoveMinZ) { m_pos.z = kMoveMinZ; }
+	if (m_pos.z > kMoveMaxZ) { m_pos.z = kMoveMaxZ; }
+
 	MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
 	MV1SetRotationXYZ(m_model, VGet(0.0f, m_angle, 0.0f));
 }
@@ -134,9 +145,9 @@ float Player::GetRadius() const
 	return kColRadius;
 }
 
-Vector3 Player::GetColPos() const
+Vec3 Player::GetColPos() const
 {
-	Vector3 result = m_pos;
+	Vec3 result = m_pos;
 	result.y += 80.0f;
 	return result;
 }

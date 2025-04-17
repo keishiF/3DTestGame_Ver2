@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneBase.h"
 #include "DxLib.h"
-#include "Vector3.h"
+#include "Vec3.h"
 #include <memory>
 
 class Player;
@@ -26,7 +26,7 @@ private:
 	int m_blinkFrame;
 
 	int m_skyModel;
-	Vector3 m_skyPos;
+	Vec3 m_skyPos;
 
 	MV1_COLL_RESULT_POLY_DIM m_hitPolyDim;
 	bool m_isHitPoly;

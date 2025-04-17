@@ -2,7 +2,7 @@
 
 #include "DxLib.h"
 #include "Input.h"
-#include "Vector3.h"
+#include "Vec3.h"
 #include <memory>
 
 class Camera;
@@ -25,9 +25,9 @@ public:
 	// HPを取得
 	int GetHp() const { return m_hp; }
 	// 位置の取得
-	Vector3 GetPos() const { return m_pos; }
+	Vec3 GetPos() const { return m_pos; }
 	// プレイヤーの当たり判定の位置を取得
-	Vector3 GetColPos() const;
+	Vec3 GetColPos() const;
 	// 回転行列の取得
 	MATRIX GetRotMtx() const { return m_rotMtx; }
 	// ロックオンしているかの取得
@@ -44,9 +44,9 @@ private:
 	// アニメーションハンドル
 	int m_anim;
 	// プレイヤーの位置
-	Vector3 m_pos;
+	Vec3 m_pos;
 	// プレイヤーの移動量
-	Vector3 m_vec;
+	Vec3 m_vec;
 	// プレイヤーの向いている方向
 	float m_angle;
 	// プレイヤーの回転行列
