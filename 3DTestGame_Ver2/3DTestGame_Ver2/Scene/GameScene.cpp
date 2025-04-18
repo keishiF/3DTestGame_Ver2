@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "TitleScene.h"
+#include "ResultScene.h"
 #include "SceneController.h"
 #include "game.h"
 #include "Input.h"
@@ -12,6 +13,12 @@
 namespace
 {
 	constexpr int kFadeInterval = 60;
+
+	// フィールドの一辺の長さ
+	constexpr float kFieldSize = 750.0f;
+
+	// スカイドームの拡大率
+	constexpr float kSkyScale = 5.0f;
 }
 
 GameScene::GameScene(SceneController& controller) :
@@ -26,7 +33,8 @@ GameScene::GameScene(SceneController& controller) :
 	m_update(&GameScene::FadeInUpdate),
 	m_draw(&GameScene::FadeDraw)
 {
-	m_skyModel = MV1LoadModel("Data/Sky/Sky_Daylight01.pmx");
+	//m_skyModel = MV1LoadModel("Data/Sky/Sky_Daylight01.pmx");
+	m_skyModel = MV1LoadModel("Data/Sky/Sky_Daylight01.mv1");
 	assert(m_skyModel != -1);
 
 	m_player = std::make_shared<Player>();
@@ -36,6 +44,7 @@ GameScene::GameScene(SceneController& controller) :
 	m_camera = std::make_shared<Camera>();
 	m_camera->SetCamera(m_player);
 
+	MV1SetScale(m_skyModel, VGet(kSkyScale, kSkyScale, kSkyScale));
 	MV1SetPosition(m_skyModel, VGet(m_skyPos.x, m_skyPos.y, m_skyPos.z));
 }
 
@@ -66,11 +75,9 @@ void GameScene::NormalUpdate(Input& input)
 	// プレイヤーと敵の当たり判定
 	if (m_colliderManager->SphereToSphere(m_player->GetColPos(), m_player->GetRadius(), m_enemy->GetColPos(), m_enemy->GetRadius()))
 	{
-		printfDx("Hit\n");
-	}
-	else
-	{
-		printfDx("--\n");
+		m_update = &GameScene::FadeOutUpdate;
+		m_draw = &GameScene::FadeDraw;
+		m_fadeFrame = 0;
 	}
 
 	if (input.IsPress(GetJoypadInputState(PAD_INPUT_1)))
@@ -94,7 +101,7 @@ void GameScene::FadeOutUpdate(Input&)
 {
 	if (m_fadeFrame++ >= kFadeInterval)
 	{
-		m_controller.ChangeScene(std::make_shared<TitleScene>(m_controller));
+		m_controller.ChangeScene(std::make_shared<ResultScene>(m_controller));
 
 		// 自分が死んでいるのでもし余計な処理が入っているとまずいのでreturn;
 		return;
@@ -103,36 +110,36 @@ void GameScene::FadeOutUpdate(Input&)
 
 void GameScene::NormalDraw()
 {
-	//DrawString(0, 0, "Game Scene", 0xffffff);
-
 	printf("frame %d　PlayerHP=%d　PlayerPos X=%f,Y=%f,Z=%f　EnemyPos X=%f,Y=%f,Z=%f\r", 
 		m_frameCount,
 		m_player->GetHp(),
 		m_player->GetPos().x, m_player->GetPos().y, m_player->GetPos().z,
 		m_enemy->GetPos().x, m_enemy->GetPos().y, m_enemy->GetPos().z);
 	
-	//MV1DrawModel(m_skyModel);
+	MV1DrawModel(m_skyModel);
 
-	Vec3 start;
+	DrawTriangle3D(VGet(750.0f, 0.0f, -750.0f), VGet(-750.0f, 0.0f, -750.0f), VGet(750.0f, 0.0f, 750.0f), 0xffffff, true);
+	DrawTriangle3D(VGet(-750.0f, 0.0f, -750.0f), VGet(-750.0f, 0.0f, 750.0f), VGet(750.0f, 0.0f, 750.0f), 0xffffff, true);
+	/*Vec3 start;
 	Vec3 end;
-	start = { -500.0f, 0.0f,0.0f };
-	end = { 500.0f, 0.0f,0.0f };
-	for (int z = -500; z <= 500; z += 100)
+	start = { -kFieldSize, 0.0f,0.0f };
+	end = { kFieldSize, 0.0f,0.0f };
+	for (int z = -kFieldSize; z <= kFieldSize; z += 50)
 	{
 		start.z = z;
 		end.z = z;
 
 		DrawLine3D(VGet(start.x, start.y, start.z), VGet(end.x, end.y, end.z), 0xff0000);
 	}
-	start = { 0.0f, 0.0f, -500.0f };
-	end = { 0.0f, 0.0f, 500.0f };
-	for (int x = -500; x <= 500; x += 100)
+	start = { 0.0f, 0.0f, -kFieldSize };
+	end = { 0.0f, 0.0f, kFieldSize };
+	for (int x = -kFieldSize; x <= kFieldSize; x += 50)
 	{
 		start.x = x;
 		end.x = x;
 
 		DrawLine3D(VGet(start.x, start.y, start.z), VGet(end.x, end.y, end.z), 0x0000ff);
-	}
+	}*/
 
 	m_player->Draw();
 	m_enemy->Draw();

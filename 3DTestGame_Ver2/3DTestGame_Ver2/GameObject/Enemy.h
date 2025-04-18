@@ -22,7 +22,7 @@ public:
 	// “G‚Ì”¼Œa‚ğæ“¾
 	float GetRadius() const;
 	// “G‚ğˆê’è”ÍˆÍ‚æ‚èŠO‘¤‚Éƒ‰ƒ“ƒ_ƒ€‚Å¶¬‚·‚é‚½‚ß‚ÌŠÖ”
-	Vec3 GeneratePos(std::shared_ptr<Player> player);
+	Vec3 GeneratePos();
 
 private:
 	// “G‚Ìƒ‚ƒfƒ‹

@@ -72,6 +72,9 @@
     <ClCompile Include="Collider\ColliderManager.cpp">
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\ResultScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="Collider\ColliderManager.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ResultScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

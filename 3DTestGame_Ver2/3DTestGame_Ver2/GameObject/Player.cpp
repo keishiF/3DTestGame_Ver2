@@ -10,19 +10,17 @@ namespace
 	constexpr float kSpeed = 7.5f;
 	// 旋回速度
 	constexpr float kRotSpeed = 0.05f;
-	// ジャンプの初速度
-	constexpr float kJumpSpeed = 15.0f;
+	// ジャンプ力
+	constexpr float kJumpSpeed = 20.0f;
 	// 重力
-	constexpr float kGravity = 0.5f;
+	constexpr float kGravity = 0.75f;
 
 	// プレイヤーの当たり判定用の球の半径
 	constexpr float kColRadius = 90.0f;
 
 	// プレイヤーの移動範囲の制限
-	constexpr float kMoveMinX = -500.0f;
-	constexpr float kMoveMaxX =  500.0f;
-	constexpr float kMoveMinZ = -500.0f;
-	constexpr float kMoveMaxZ =  500.0f;
+	constexpr float kMoveMin = -750.0f;
+	constexpr float kMoveMax =  750.0f;
 }
 
 Player::Player() :
@@ -116,10 +114,10 @@ void Player::Update(Input& input, std::shared_ptr<Camera> camera)
 	m_pos.y += vec.y;
 	m_pos.z += vec.z;
 
-	if (m_pos.x < kMoveMinX) { m_pos.x = kMoveMinX; }
-	if (m_pos.x > kMoveMaxX) { m_pos.x = kMoveMaxX; }
-	if (m_pos.z < kMoveMinZ) { m_pos.z = kMoveMinZ; }
-	if (m_pos.z > kMoveMaxZ) { m_pos.z = kMoveMaxZ; }
+	if (m_pos.x < kMoveMin) { m_pos.x = kMoveMin; }
+	if (m_pos.x > kMoveMax) { m_pos.x = kMoveMax; }
+	if (m_pos.z < kMoveMin) { m_pos.z = kMoveMin; }
+	if (m_pos.z > kMoveMax) { m_pos.z = kMoveMax; }
 
 	MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
 	MV1SetRotationXYZ(m_model, VGet(0.0f, m_angle, 0.0f));

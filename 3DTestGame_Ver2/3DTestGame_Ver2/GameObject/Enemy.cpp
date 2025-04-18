@@ -3,18 +3,17 @@
 #include "Player.h"
 #include <cassert>
 #include <iostream>
-#include <random>
 
 namespace
 {
     // 敵の移動速度
-    constexpr float kSpeed = 5.0f;
+    constexpr float kSpeed = 20.0f;
     // 敵の半径
     constexpr float kColRadius = 80.0f;
     // 敵が生成される範囲
-    constexpr float kGenerateRangeMin = -500.0f;
-    constexpr float kGenerateRangeMax =  500.0f;
-    constexpr float kSpawnBuffer      =  50.0f;
+    constexpr float kGenerateRange = 750.0f;
+    // フィールドの端
+    constexpr float kField = 800.0f;
 }
 
 Enemy::Enemy() :
@@ -23,6 +22,7 @@ Enemy::Enemy() :
 	m_moveVec(0.0f, 0.0f, 0.0f),
 	m_update(&Enemy::IdleUpdate)
 {
+    // モデルの読み込み
     m_model = MV1LoadModel("Data/Enemy/Enemy.mv1");
     assert(m_model != -1);
 
@@ -36,13 +36,17 @@ Enemy::~Enemy()
 
 void Enemy::IdleUpdate(std::shared_ptr<Player> player)
 {
-    m_pos = GeneratePos(player);
+    // ランダムな位置に生成
+    m_pos = GeneratePos();
     MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
+
+    // プレイヤーに向かうベクトルを取得
 	Vec3 playerPos = player->GetPos();
     Vec3 enemyToPlayer = playerPos - m_pos;
 	enemyToPlayer.Normalize();
     m_moveVec = enemyToPlayer * kSpeed;
 
+    // 突進状態に移行
     m_update = &Enemy::RunUpdate;
 }
 
@@ -51,22 +55,22 @@ void Enemy::RunUpdate(std::shared_ptr<Player> player)
     // 敵を移動
     m_pos.x += m_moveVec.x;
     m_pos.z += m_moveVec.z;
-
     MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
 
-    if (m_pos.x > 700.0f)
+    // フィールドの外に出たら再生成する
+    if (m_pos.x > kField)
     {
         m_update = &Enemy::IdleUpdate;
     }
-    if (m_pos.x < -700.0f)
+    if (m_pos.x < -kField)
     {
         m_update = &Enemy::IdleUpdate;
     }
-    if (m_pos.z > 700.0f)
+    if (m_pos.z > kField)
     {
         m_update = &Enemy::IdleUpdate;
     }
-    if (m_pos.z < -700.0f)
+    if (m_pos.z < -kField)
     {
         m_update = &Enemy::IdleUpdate;
     }
@@ -102,30 +106,23 @@ float Enemy::GetRadius() const
     return kColRadius;
 }
 
-Vec3 Enemy::GeneratePos(std::shared_ptr<Player> player)
+Vec3 Enemy::GeneratePos()
 {
-    // 一辺の長さ分の乱数を生成
-    // 
-    // xかzのどちらかを固定し、どちらかに生成した乱数を充てる
-    // 
-    // 固定した方をランダムに反転させる/
+    // 一定の範囲でランダムな値を生成
+    int randPos = GetRand(kGenerateRange * 2) - kGenerateRange;
 
+    float fieldSize = kGenerateRange;
+    if (GetRand(1) == 0)
+    {
+        fieldSize *= -1;
+    }
 
-
-    //static std::random_device rd;
-    //static std::mt19937 gen(rd());
-    //static std::uniform_real_distribution<float> dist(-1000.0f, 1000.0f);
-
-    //Vec3 position;
-    //do
-    //{
-    //    position.x = dist(gen);
-    //    position.z = dist(gen);
-    //} while (position.x > kGenerateRangeMin - kSpawnBuffer && 
-    //    position.x < kGenerateRangeMax + kSpawnBuffer &&
-    //    position.z > kGenerateRangeMin - kSpawnBuffer && 
-    //    position.z < kGenerateRangeMax + kSpawnBuffer);
-
-    //position.y = 0.0f; // Y座標は固定
-    //return position;
+    if (GetRand(1) == 0)
+    {
+        return Vec3(static_cast<float>(randPos), 0.0f, fieldSize);
+    }
+    else
+    {
+        return Vec3(fieldSize, 0.0f, static_cast<float>(randPos));
+    }
 }

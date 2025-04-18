@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "GameScene.h"
 #include "SceneController.h"
 #include "game.h"
 #include "Input.h"
@@ -58,7 +59,7 @@ void TitleScene::FadeOutUpdate(Input&)
 {
 	if (m_fadeFrame++ >= kFadeInterval)
 	{
-		//m_controller.ChangeScene(std::make_shared<GameScene>(m_controller));
+		m_controller.ChangeScene(std::make_shared<GameScene>(m_controller));
 
 		// ©•ª‚ª€‚ñ‚Å‚¢‚é‚Ì‚Å‚à‚µ—]Œv‚Èˆ—‚ª“ü‚Á‚Ä‚¢‚é‚Æ‚Ü‚¸‚¢‚Ì‚Åreturn;
 		return;
@@ -67,11 +68,10 @@ void TitleScene::FadeOutUpdate(Input&)
 
 void TitleScene::NormalDraw()
 {
-	DrawString(0, 0, "Title Scene", 0xffffff);
 	// “_–ÅŒø‰Ê‚Ì‚½‚ß‚ÌğŒ
 	if ((m_blinkFrame / 30) % 2 == 0)
 	{
-
+		DrawString(0, 0, "Title Scene", 0xffffff);
 	}
 }
 
