@@ -30,6 +30,8 @@ private:
 	// 敵の位置
 	Vec3 m_pos;
 	Vec3 m_moveVec;
+	// 敵のスピード
+	float m_speed;
 
 	void IdleUpdate(std::shared_ptr<Player> player);
 	void RunUpdate(std::shared_ptr<Player> player);

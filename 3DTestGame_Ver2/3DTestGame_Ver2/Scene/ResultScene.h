@@ -4,7 +4,7 @@ class ResultScene final:
     public SceneBase
 {
 public:
-    ResultScene(SceneController& controller);
+    ResultScene(SceneController& controller, int time, int score);
     ~ResultScene();
 
     virtual void Update(Input& input) override;
@@ -14,6 +14,11 @@ private:
 	int m_fadeFrame;
 
 	int m_blinkFrame;
+
+	int m_time;
+	int m_score;
+
+	int m_fontHandle;
 
 	using UpdateFunc_t = void(ResultScene::*)(Input&);
 	using DrawFunc_t = void(ResultScene::*)();

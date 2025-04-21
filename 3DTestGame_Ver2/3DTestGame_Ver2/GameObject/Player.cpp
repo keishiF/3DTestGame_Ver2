@@ -25,6 +25,7 @@ namespace
 
 Player::Player() :
 	m_model(-1),
+	m_jumpSE(-1),
 	m_anim(-1),
 	m_pos(0.0f, 0.0f, 0.0f),
 	m_vec(0.0f, 0.0f, 0.0f),
@@ -37,10 +38,12 @@ Player::Player() :
 	m_gravity(kGravity),
 	m_frameCount(0.0f)
 {
-	m_model = MV1LoadModel("Data/Player/Player.mv1");
+	m_model = MV1LoadModel("Data/Model/Player/Player.mv1");
 	assert(m_model != -1);
 	m_anim = MV1AttachAnim(m_model, 3, -1, false);
 	assert(m_anim != -1);
+	m_jumpSE = LoadSoundMem("Data/Sound/SE/JumpSE2.mp3");
+	assert(m_jumpSE != -1);
 
 	MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
 }
@@ -49,6 +52,7 @@ Player::~Player()
 {
 	MV1DetachAnim(m_model, m_anim);
 	MV1DeleteModel(m_model);
+	DeleteSoundMem(m_jumpSE);
 }
 
 void Player::Update(Input& input, std::shared_ptr<Camera> camera)
@@ -167,6 +171,7 @@ void Player::UpdateJump()
 		// ジャンプ中の処理
 		m_pos.y += m_jumpSpeed;
 		m_jumpSpeed -= m_gravity;
+		PlaySoundMem(m_jumpSE, DX_PLAYTYPE_BACK);
 
 		// 地面に戻ったらジャンプ終了
 		if (m_pos.y <= 0.0f)

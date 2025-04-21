@@ -19,14 +19,15 @@ public:
 	virtual void Draw() override;
 
 private:
-	int m_frameCount;
-
+	int m_frame;
+	int m_timeSecond;
+	int m_timeFrame;
 	int m_fadeFrame;
-
-	int m_blinkFrame;
 
 	int m_skyModel;
 	Vec3 m_skyPos;
+
+	int m_fieldModel;
 
 	MV1_COLL_RESULT_POLY_DIM m_hitPolyDim;
 	bool m_isHitPoly;
@@ -53,5 +54,8 @@ private:
 	void NormalDraw();
 	// フェード時の描画
 	void FadeDraw();
+
+	// グリッドを描画
+	void DrawField();
 };
 

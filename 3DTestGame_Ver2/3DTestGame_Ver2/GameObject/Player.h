@@ -43,6 +43,8 @@ private:
 	int m_model;
 	// アニメーションハンドル
 	int m_anim;
+	// ジャンプのSE
+	int m_jumpSE;
 	// プレイヤーの位置
 	Vec3 m_pos;
 	// プレイヤーの移動量

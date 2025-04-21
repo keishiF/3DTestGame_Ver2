@@ -20,10 +20,11 @@ Enemy::Enemy() :
     m_model(-1),
 	m_pos(),
 	m_moveVec(0.0f, 0.0f, 0.0f),
+    m_speed(kSpeed),
 	m_update(&Enemy::IdleUpdate)
 {
     // モデルの読み込み
-    m_model = MV1LoadModel("Data/Enemy/Enemy.mv1");
+    m_model = MV1LoadModel("Data/Model/Enemy/Enemy.mv1");
     assert(m_model != -1);
 
     MV1SetPosition(m_model, VGet(m_pos.x, m_pos.y, m_pos.z));
@@ -44,7 +45,7 @@ void Enemy::IdleUpdate(std::shared_ptr<Player> player)
 	Vec3 playerPos = player->GetPos();
     Vec3 enemyToPlayer = playerPos - m_pos;
 	enemyToPlayer.Normalize();
-    m_moveVec = enemyToPlayer * kSpeed;
+    m_moveVec = enemyToPlayer * m_speed;
 
     // 突進状態に移行
     m_update = &Enemy::RunUpdate;
@@ -60,18 +61,22 @@ void Enemy::RunUpdate(std::shared_ptr<Player> player)
     // フィールドの外に出たら再生成する
     if (m_pos.x > kField)
     {
+        m_speed += 0.2f;
         m_update = &Enemy::IdleUpdate;
     }
     if (m_pos.x < -kField)
     {
+        m_speed += 0.2f;
         m_update = &Enemy::IdleUpdate;
     }
     if (m_pos.z > kField)
     {
+        m_speed += 0.2f;
         m_update = &Enemy::IdleUpdate;
     }
     if (m_pos.z < -kField)
     {
+        m_speed += 0.2f;
         m_update = &Enemy::IdleUpdate;
     }
 }
