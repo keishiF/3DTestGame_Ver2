@@ -23,6 +23,7 @@ private:
 	int m_timeSecond;
 	int m_timeFrame;
 	int m_fadeFrame;
+	int m_score;
 
 	int m_skyModel;
 	Vec3 m_skyPos;

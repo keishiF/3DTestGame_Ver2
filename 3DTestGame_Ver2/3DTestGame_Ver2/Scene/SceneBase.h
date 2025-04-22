@@ -10,7 +10,7 @@ public:
 	SceneBase(SceneController& controller);
 
 	// XVA•`‰æ
-	virtual void Update(Input& input) = 0;
+	virtual void Update(Input& input) abstract;
 	virtual void Draw() = 0;
 
 protected:

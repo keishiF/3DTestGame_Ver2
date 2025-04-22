@@ -27,6 +27,7 @@ GameScene::GameScene(SceneController& controller) :
 	m_timeSecond(3),
 	m_timeFrame(0),
 	m_fadeFrame(0),
+	m_score(0),
 	m_skyModel(-1),
 	m_skyPos(0.0f, 0.0f, 0.0f),
 	m_fieldModel(-1),
@@ -97,6 +98,7 @@ void GameScene::NormalUpdate(Input& input)
 	if (m_timeFrame >= 60)
 	{
 		m_timeSecond += 1;
+		m_score += 1000;
 		m_timeFrame = 0;
 	}
 
@@ -126,29 +128,7 @@ void GameScene::FadeOutUpdate(Input&)
 {
 	if (m_fadeFrame++ >= kFadeInterval)
 	{
-		int score = 0;
-		if (m_timeSecond >= 60)
-		{
-			score = 30000;
-		}
-		else if (m_timeSecond >= 45)
-		{
-			score = 20000;
-		}
-		else if (m_timeSecond >= 30)
-		{
-			score = 15000;
-		}
-		else if (m_timeSecond >= 15)
-		{
-			score = 10000;
-		}
-		else
-		{
-			score = 0;
-		}
-
-		m_controller.ChangeScene(std::make_shared<ResultScene>(m_controller, m_timeSecond, score));
+		m_controller.ChangeScene(std::make_shared<ResultScene>(m_controller, m_timeSecond, m_score));
 
 		// é©ï™Ç™éÄÇÒÇ≈Ç¢ÇÈÇÃÇ≈Ç‡Çµó]åvÇ»èàóùÇ™ì¸Ç¡ÇƒÇ¢ÇÈÇ∆Ç‹Ç∏Ç¢ÇÃÇ≈return;
 		return;
@@ -185,10 +165,12 @@ void GameScene::NormalDraw()
 
 	int width = GetDrawStringWidthToHandle("TIME", strlen("TIME"), m_fontHandle);
 	DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2) - 320,
-		"TIME", 0x7fffd4, m_fontHandle);
+		"TIME", 0xff0000, m_fontHandle);
 	width = GetDrawFormatStringWidthToHandle(m_fontHandle, "%d", m_timeSecond);
 	DrawFormatStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2) - 275,
 		0xff0000, m_fontHandle, "%d", m_timeSecond);
+
+	DrawFormatStringToHandle(0, 10, 0xfff3b8, m_fontHandle, "Score:%d", m_score);
 }
 
 void GameScene::FadeDraw()

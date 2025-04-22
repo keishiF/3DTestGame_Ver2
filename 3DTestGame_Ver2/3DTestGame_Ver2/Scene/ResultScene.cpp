@@ -77,7 +77,7 @@ void ResultScene::FadeOutUpdate(Input&)
 
 void ResultScene::NormalDraw()
 {
-	if (m_score >= 30000)
+	if (m_score >= 50000)
 	{
 		int width = GetDrawStringWidthToHandle("RANK:S", strlen("RANK:S"), m_fontHandle);
 		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2) - 50,
@@ -87,7 +87,7 @@ void ResultScene::NormalDraw()
 		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2),
 			("Score:" + std::to_string(m_score)).c_str(), 0xffedab, m_fontHandle);
 	}
-	else if (m_score >= 20000)
+	else if (m_score >= 40000)
 	{
 		int width = GetDrawStringWidthToHandle("RANK:A", strlen("RANK:A"), m_fontHandle);
 		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2) - 50,
@@ -97,7 +97,7 @@ void ResultScene::NormalDraw()
 		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2),
 			("Score:" + std::to_string(m_score)).c_str(), 0xcc0033, m_fontHandle);
 	}
-	else if (m_score >= 15000)
+	else if (m_score >= 30000)
 	{
 		int width = GetDrawStringWidthToHandle("RANK:B", strlen("RANK:B"), m_fontHandle);
 		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2) - 50,
