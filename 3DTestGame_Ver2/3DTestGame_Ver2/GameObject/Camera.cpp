@@ -10,8 +10,8 @@ namespace
 	constexpr float kRotSpeed = 0.00005f;
 
 	constexpr float kCameraOffsetX = 0.0f;
-	constexpr float kCameraOffsetY = 800.0f;
-	constexpr float kCameraOffsetZ = 750.0f;
+	constexpr float kCameraOffsetY = 1000.0f;
+	constexpr float kCameraOffsetZ = 1000.0f;
 }
 
 Camera::Camera() :

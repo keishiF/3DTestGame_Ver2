@@ -13,10 +13,8 @@
 namespace
 {
 	constexpr int kFadeInterval = 60;
-
 	// フィールドの一辺の長さ
 	constexpr float kFieldSize = 750.0f;
-
 	// スカイドームのモデルの拡大率
 	constexpr float kSkyScale = 5.0f;
 	// 地面のモデルの拡大率
@@ -26,22 +24,24 @@ namespace
 GameScene::GameScene(SceneController& controller) :
 	SceneBase(controller),
 	m_frame(0),
-	m_timeSecond(0),
+	m_timeSecond(3),
 	m_timeFrame(0),
 	m_fadeFrame(0),
 	m_skyModel(-1),
 	m_skyPos(0.0f, 0.0f, 0.0f),
 	m_fieldModel(-1),
+	m_fontHandle(-1),
 	m_hitPolyDim(),
 	m_isHitPoly(false),
 	m_update(&GameScene::FadeInUpdate),
 	m_draw(&GameScene::FadeDraw)
 {
-	//m_skyModel = MV1LoadModel("Data/Sky/Sky_Daylight01.pmx");
 	m_skyModel = MV1LoadModel("Data/Model/Sky/Sky_Daylight01.mv1");
 	assert(m_skyModel != -1);
 	m_fieldModel = MV1LoadModel("Data/Model/Field/Field.mv1");
 	assert(m_fieldModel != -1);
+	m_fontHandle = CreateFontToHandle("Algerian", 48, -1, DX_FONTTYPE_ANTIALIASING_8X8);
+	assert(m_fontHandle != -1);
 
 	m_player = std::make_shared<Player>();
 	m_enemy = std::make_shared<Enemy>();
@@ -73,6 +73,22 @@ void GameScene::Draw()
 	(this->*m_draw)();
 }
 
+void GameScene::CountDown(Input& input)
+{
+	++m_frame;
+	if (m_timeSecond <= 0 && m_frame >= 60)
+	{
+		m_frame = 0;
+		m_update = &GameScene::NormalUpdate;
+		m_draw = &GameScene::NormalDraw;
+	}
+	if (m_frame >= 60)
+	{
+		m_frame = 0;
+		m_timeSecond -= 1;
+	}
+}
+
 void GameScene::NormalUpdate(Input& input)
 {
 	++m_frame;
@@ -101,8 +117,8 @@ void GameScene::FadeInUpdate(Input&)
 {
 	if (m_fadeFrame-- <= 0)
 	{
-		m_update = &GameScene::NormalUpdate;
-		m_draw = &GameScene::NormalDraw;
+		m_update = &GameScene::CountDown;
+		m_draw = &GameScene::CountDownDraw;
 	}
 }
 
@@ -139,6 +155,19 @@ void GameScene::FadeOutUpdate(Input&)
 	}
 }
 
+void GameScene::CountDownDraw()
+{
+	MV1DrawModel(m_skyModel);
+
+	DrawField();
+
+	m_player->Draw();
+
+	int width = GetDrawFormatStringWidthToHandle(m_fontHandle, "%d", m_timeSecond);
+	DrawFormatStringToHandle(Game::kScreenWidth / 2 - width / 2, Game::kScreenHeight / 2 - 64 / 2,
+		0xff0000, m_fontHandle, "%d", m_timeSecond);
+}
+
 void GameScene::NormalDraw()
 {
 	printf("frame %d　PlayerHP=%d　PlayerPos X=%f,Y=%f,Z=%f　EnemyPos X=%f,Y=%f,Z=%f\r", 
@@ -154,7 +183,12 @@ void GameScene::NormalDraw()
 	m_player->Draw();
 	m_enemy->Draw();
 
-	DrawFormatString(640, 50, 0xff0000, "Time\n%d", m_timeSecond);
+	int width = GetDrawStringWidthToHandle("TIME", strlen("TIME"), m_fontHandle);
+	DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2) - 320,
+		"TIME", 0x7fffd4, m_fontHandle);
+	width = GetDrawFormatStringWidthToHandle(m_fontHandle, "%d", m_timeSecond);
+	DrawFormatStringToHandle(Game::kScreenWidth / 2 - width / 2, (Game::kScreenHeight / 2 - 64 / 2) - 275,
+		0xff0000, m_fontHandle, "%d", m_timeSecond);
 }
 
 void GameScene::FadeDraw()
@@ -169,9 +203,9 @@ void GameScene::DrawField()
 {
 	MV1DrawModel(m_fieldModel);
 
-	// 1枚床
-	DrawTriangle3D(VGet(750.0f, 0.0f, -750.0f), VGet(-750.0f, 0.0f, -750.0f), VGet(750.0f, 0.0f, 750.0f), 0xffffff, true);
-	DrawTriangle3D(VGet(-750.0f, 0.0f, -750.0f), VGet(-750.0f, 0.0f, 750.0f), VGet(750.0f, 0.0f, 750.0f), 0xffffff, true);
+	//// 1枚床
+	//DrawTriangle3D(VGet(750.0f, 0.0f, -750.0f), VGet(-750.0f, 0.0f, -750.0f), VGet(750.0f, 0.0f, 750.0f), 0xffffff, true);
+	//DrawTriangle3D(VGet(-750.0f, 0.0f, -750.0f), VGet(-750.0f, 0.0f, 750.0f), VGet(750.0f, 0.0f, 750.0f), 0xffffff, true);
 
 	//// グリッド
 	//Vec3 start;

@@ -29,6 +29,8 @@ private:
 
 	int m_fieldModel;
 
+	int m_fontHandle;
+
 	MV1_COLL_RESULT_POLY_DIM m_hitPolyDim;
 	bool m_isHitPoly;
 
@@ -43,6 +45,8 @@ private:
 	std::shared_ptr<Enemy> m_enemy;
 	std::shared_ptr<ColliderManager> m_colliderManager;
 
+	// ゲーム開始前のカウントダウン
+	void CountDown(Input& input);
 	// 通常時更新処理
 	void NormalUpdate(Input& input);
 	// フェードイン
@@ -50,6 +54,8 @@ private:
 	// フェードアウト
 	void FadeOutUpdate(Input&);
 
+	// ゲーム開始前のカウントダウンの描画
+	void CountDownDraw();
 	// 通常時描画
 	void NormalDraw();
 	// フェード時の描画

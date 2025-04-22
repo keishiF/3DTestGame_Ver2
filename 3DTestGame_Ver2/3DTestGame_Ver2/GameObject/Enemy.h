@@ -32,6 +32,8 @@ private:
 	Vec3 m_moveVec;
 	// 敵のスピード
 	float m_speed;
+	// フレーム数
+	int m_frame;
 
 	void IdleUpdate(std::shared_ptr<Player> player);
 	void RunUpdate(std::shared_ptr<Player> player);

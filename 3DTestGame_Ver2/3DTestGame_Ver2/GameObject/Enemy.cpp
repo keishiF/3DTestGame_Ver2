@@ -8,6 +8,8 @@ namespace
 {
     // 敵の移動速度
     constexpr float kSpeed = 20.0f;
+    // 再生成毎の敵の速度の上昇量
+    constexpr float kUpSpeed = 0.2f;
     // 敵の半径
     constexpr float kColRadius = 80.0f;
     // 敵が生成される範囲
@@ -18,9 +20,10 @@ namespace
 
 Enemy::Enemy() :
     m_model(-1),
-	m_pos(),
+	m_pos(10000.0f, 10000.0f, 10000.0f),
 	m_moveVec(0.0f, 0.0f, 0.0f),
     m_speed(kSpeed),
+    m_frame(0),
 	m_update(&Enemy::IdleUpdate)
 {
     // モデルの読み込み
@@ -61,22 +64,22 @@ void Enemy::RunUpdate(std::shared_ptr<Player> player)
     // フィールドの外に出たら再生成する
     if (m_pos.x > kField)
     {
-        m_speed += 0.2f;
+        m_speed += kUpSpeed;
         m_update = &Enemy::IdleUpdate;
     }
     if (m_pos.x < -kField)
     {
-        m_speed += 0.2f;
+        m_speed += kUpSpeed;
         m_update = &Enemy::IdleUpdate;
     }
     if (m_pos.z > kField)
     {
-        m_speed += 0.2f;
+        m_speed += kUpSpeed;
         m_update = &Enemy::IdleUpdate;
     }
     if (m_pos.z < -kField)
     {
-        m_speed += 0.2f;
+        m_speed += kUpSpeed;
         m_update = &Enemy::IdleUpdate;
     }
 }
