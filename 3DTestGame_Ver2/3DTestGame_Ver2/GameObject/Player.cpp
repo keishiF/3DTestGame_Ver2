@@ -161,6 +161,7 @@ void Player::StartJump()
 	{
 		m_isJump = true;
 		m_jumpSpeed = kJumpSpeed;
+		PlaySoundMem(m_jumpSE, DX_PLAYTYPE_BACK);
 	}
 }
 
@@ -171,7 +172,6 @@ void Player::UpdateJump()
 		// ジャンプ中の処理
 		m_pos.y += m_jumpSpeed;
 		m_jumpSpeed -= m_gravity;
-		PlaySoundMem(m_jumpSE, DX_PLAYTYPE_BACK);
 
 		// 地面に戻ったらジャンプ終了
 		if (m_pos.y <= 0.0f)
