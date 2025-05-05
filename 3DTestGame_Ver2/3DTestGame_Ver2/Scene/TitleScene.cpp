@@ -15,13 +15,25 @@ TitleScene::TitleScene(SceneController& controller) :
 	SceneBase(controller),
 	m_fadeFrame(0),
 	m_blinkFrame(0),
+	m_titleBGHandle(-1),
+	m_skyModel(-1),
+	m_cameraPos(0.0f, 200.0f, -500.0f),
+	m_cameraLookAt(0.0f, 0.0f, 0.0f),
+	m_cameraAngle(0.0f), 
 	m_update(&TitleScene::FadeInUpdate),
 	m_draw(&TitleScene::FadeDraw)
 {
+	m_titleBGHandle = LoadGraph("Data/Image/Title.png");
+	assert(m_titleBGHandle != -1);
+
+	m_skyModel = MV1LoadModel("Data/Model/Sky/Sky_Daylight01.mv1");
+	assert(m_skyModel != -1);
 }
 
 TitleScene::~TitleScene()
 {
+	DeleteGraph(m_titleBGHandle);
+	MV1DeleteModel(m_skyModel);
 }
 
 void TitleScene::Update(Input& input)
@@ -37,6 +49,16 @@ void TitleScene::Draw()
 void TitleScene::NormalUpdate(Input& input)
 {
 	++m_blinkFrame;
+
+	// ÉJÉÅÉâÇÃâÒì]èàóù
+	m_cameraAngle += 0.001f; // âÒì]ë¨ìx
+	m_cameraPos.x = 500.0f * cosf(m_cameraAngle);
+	m_cameraPos.z = 500.0f * sinf(m_cameraAngle);
+
+	SetCameraPositionAndTarget_UpVecY(
+		VGet(m_cameraPos.x, m_cameraPos.y, m_cameraPos.z),
+		VGet(m_cameraLookAt.x, m_cameraLookAt.y, m_cameraLookAt.z)
+	);
 
 	if (input.IsPress(CheckHitKeyAll()))
 	{
@@ -71,8 +93,11 @@ void TitleScene::NormalDraw()
 	// ì_ñ≈å¯â ÇÃÇΩÇﬂÇÃèåè
 	if ((m_blinkFrame / 30) % 2 == 0)
 	{
-		DrawString(0, 0, "Title Scene", 0xffffff);
+		//DrawString(0, 0, "Title Scene", 0xffffff);
 	}
+
+	MV1DrawModel(m_skyModel);
+	//DrawGraph(0, 0, m_titleBGHandle, true);
 }
 
 void TitleScene::FadeDraw()

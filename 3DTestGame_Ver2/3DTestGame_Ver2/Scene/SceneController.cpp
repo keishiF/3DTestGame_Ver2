@@ -6,7 +6,7 @@ SceneController::SceneController()
 {
 	ChangeScene(std::make_shared<TitleScene>(*this));
 #ifdef _DEBUG
-	ChangeScene(std::make_shared<GameScene>(*this));
+	//ChangeScene(std::make_shared<GameScene>(*this));
 #endif
 }
 

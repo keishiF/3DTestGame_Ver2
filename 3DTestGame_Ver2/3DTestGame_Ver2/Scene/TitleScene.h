@@ -1,5 +1,7 @@
 #pragma once
 #include "SceneBase.h"
+#include "Vec3.h"
+
 class TitleScene final:
 	public SceneBase
 {
@@ -12,8 +14,14 @@ public:
 
 private:
 	int m_fadeFrame;
-
 	int m_blinkFrame;
+
+	int m_titleBGHandle;
+	int m_skyModel;
+
+	Vec3 m_cameraPos;
+	Vec3 m_cameraLookAt;
+	float m_cameraAngle;
 
 	using UpdateFunc_t = void(TitleScene::*)(Input&);
 	using DrawFunc_t = void(TitleScene::*)();
