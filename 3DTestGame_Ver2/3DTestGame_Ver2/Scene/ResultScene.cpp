@@ -17,7 +17,7 @@ namespace
 
 ResultScene::ResultScene(SceneController& controller, int time, int score):
 	SceneBase(controller),
-	m_fadeFrame(0),
+	m_fadeFrame(kFadeInterval),
 	m_blinkFrame(0),
 	m_time(time),
 	m_score(score),

@@ -23,7 +23,7 @@ namespace
 
 GameScene::GameScene(SceneController& controller) :
 	SceneBase(controller),
-	m_frame(0),
+	m_frame(kFadeInterval),
 	m_timeSecond(3),
 	m_timeFrame(0),
 	m_fadeFrame(0),

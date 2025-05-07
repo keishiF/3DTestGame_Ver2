@@ -13,7 +13,7 @@ namespace
 
 TitleScene::TitleScene(SceneController& controller) :
 	SceneBase(controller),
-	m_fadeFrame(0),
+	m_fadeFrame(kFadeInterval),
 	m_blinkFrame(0),
 	m_titleBGHandle(-1),
 	m_skyModel(-1),
@@ -28,6 +28,9 @@ TitleScene::TitleScene(SceneController& controller) :
 
 	m_skyModel = MV1LoadModel("Data/Model/Sky/Sky_Daylight01.mv1");
 	assert(m_skyModel != -1);
+
+	m_fontHandle = CreateFontToHandle("Algerian", 48, -1, DX_FONTTYPE_ANTIALIASING_8X8);
+	assert(m_fontHandle != -1);
 }
 
 TitleScene::~TitleScene()
@@ -90,14 +93,19 @@ void TitleScene::FadeOutUpdate(Input&)
 
 void TitleScene::NormalDraw()
 {
+	MV1DrawModel(m_skyModel);
+	DrawGraph(0, 0, m_titleBGHandle, true);
+
 	// ì_ñ≈å¯â ÇÃÇΩÇﬂÇÃèåè
 	if ((m_blinkFrame / 30) % 2 == 0)
 	{
-		//DrawString(0, 0, "Title Scene", 0xffffff);
+		int width = GetDrawStringWidthToHandle("PRESS ANY BUTTON", strlen("PRESS ANY BUTTON"), m_fontHandle);
+		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, ((Game::kScreenHeight / 2 - 64 / 2) - 50) + 150,
+			"PRESS ANY BUTTON", 0xcc0033, m_fontHandle);
+		width = GetDrawStringWidthToHandle("START", strlen("START"), m_fontHandle);
+		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, ((Game::kScreenHeight / 2 - 64 / 2) - 50) + 150,
+			"\nSTART", 0xcc0033, m_fontHandle);
 	}
-
-	MV1DrawModel(m_skyModel);
-	//DrawGraph(0, 0, m_titleBGHandle, true);
 }
 
 void TitleScene::FadeDraw()
