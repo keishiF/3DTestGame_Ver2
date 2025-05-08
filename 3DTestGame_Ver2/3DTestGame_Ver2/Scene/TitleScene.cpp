@@ -101,10 +101,10 @@ void TitleScene::NormalDraw()
 	{
 		int width = GetDrawStringWidthToHandle("PRESS ANY BUTTON", strlen("PRESS ANY BUTTON"), m_fontHandle);
 		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, ((Game::kScreenHeight / 2 - 64 / 2) - 50) + 150,
-			"PRESS ANY BUTTON", 0xcc0033, m_fontHandle);
+			"PRESS ANY BUTTON", 0xff7fff, m_fontHandle);
 		width = GetDrawStringWidthToHandle("START", strlen("START"), m_fontHandle);
 		DrawStringToHandle(Game::kScreenWidth / 2 - width / 2, ((Game::kScreenHeight / 2 - 64 / 2) - 50) + 150,
-			"\nSTART", 0xcc0033, m_fontHandle);
+			"\nSTART", 0xff7fff, m_fontHandle);
 	}
 }
 
